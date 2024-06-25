@@ -9,8 +9,8 @@ const bankAccountSchema = new mongoose.Schema({
         default: 0
     },
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     
@@ -23,7 +23,7 @@ const transactionSchema = new mongoose.Schema({
         required: true,
     },
     type: {
-        type: string,
+        type: String,
         required: true,
         enum: ['withdrawal', 'deposit']
     },
@@ -33,9 +33,14 @@ const transactionSchema = new mongoose.Schema({
         required: true
     },
     status: {
-        type: string,
+        type: String,
         required: true,
         enum: ['accepted', 'rejected']
+    },
+    bank: {
+        type: Schema.Types.ObjectId,
+        ref: "BankAccount",
+        required: true
     }
 })
 

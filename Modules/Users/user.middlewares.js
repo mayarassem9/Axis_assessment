@@ -1,5 +1,5 @@
 const Joi = require("joi");
-
+const jwt = require("jsonwebtoken");
 
 const validateCreate = (req, res, next) => {
     const { name, email, password } = req.body;
@@ -30,7 +30,19 @@ const validateCreate = (req, res, next) => {
     const validationResults = validationObject.validate({email, password});
     if(validationResults.error) return res.status(400).json({error: validationResults.error.details, data: null, message: "Error validating the body of the request"});
     next();
- }
+}
 
 
-module.exports = {  validateCreate, validatelogIN}
+const isAuthorized = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if(!authHeader || !authHeader.startsWith("Bearer")) return res.status(401).json({data: null, message: "Unauthorized to access this request", errors: null});
+    const token = authHeader.split(" ")[1];    
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if(err) return res.status(401).json({data: null, message: "Unauthorized to access this request", errors: null});
+        req.user = decoded;
+        next();
+});
+}
+
+module.exports = {  validateCreate, validatelogIN, isAuthorized }
