@@ -31,8 +31,10 @@ The project uses Swagger for API documentation. Once the server is running, you 
 http://localhost:3000/api-docs
 ```
 This provides a user-friendly interface to explore and test the API endpoints.
+
+## for the database connection
+The project uses MongoDB for the database localised. So ensure you have MongoDB installed and running on your local machine.
+
 ## Authentication
 The project uses JWT (JSON Web Token) for authentication. Ensure you include the JWT token in the Authorization header for all protected routes.
-
-
 
